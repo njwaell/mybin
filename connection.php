@@ -1,15 +1,20 @@
 <?php
 $host = "localhost";
-$user = "root"; // sesuaikan dengan username MySQL kamu
-$pass = "";     // isi jika pakai password
+$user = "root"; // Adjust with your MySQL username
+$pass = "";     // Fill in if you use a password
 $dbname = "mybin";
 
-// Membuat koneksi
-$conn = new mysqli($host, $user, $pass, $dbname);
+// Enable error reporting for connection issues
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-// Mengecek koneksi
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
+// Create connection
+try {
+    $conn = new mysqli($host, $user, $pass, $dbname);
+    // Set charset to avoid character encoding issues
+    $conn->set_charset("utf8mb4");
+} catch (mysqli_sql_exception $e) {
+    // A more user-friendly message for a production environment
+    // For development, you can use: die("Connection failed: " . $e->getMessage());
+    die("Error: Could not connect to the database. Please try again later.");
 }
 ?>
-    
